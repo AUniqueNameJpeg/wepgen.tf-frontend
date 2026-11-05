@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html><head><link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head><body style="overflow-y: hidden;">
+<main id="main" style="display: flex; margin: 0.5rem; justify-content: center;/*! margin-top: auto; *//*! margin-bottom: auto; *//*! flex-direction: column; */">
+  <section style="/*! display: flex; *//*! flex-direction: column; *//*! justify-content: center; *//*! align-content: center; */width: 70%; margin-top: 2rem;">
+	  {% with messages = get_flashed_messages()%}
+	  {% if messages %}
+	  {% for message in messages %}
+	  <article class="msg-holder">
+	  <p>{{ message }}</p>
+	    <div class="close-holder">
+	    <button id="msg_closer">X</button>
+	    </div>
+	  </article>
+	  {% endfor %}
+	  {% endif %}
+	  {% endwith %}
+    <h1>
+<img class="wepgen-logo" src="static/wepgen.png">
+    </h1>
+  <div class="nav-and-img-holder">
+    <div class="nav-holder" style="width: 100%;">
+    <nav>
+      <h2>LOADOUTS</h2>
+      <div>
+        <button class="modal_button" id="generate" style="/*! overflow-x: hidden; */"> GENERATE</button>
+	<a href="{{ url_for('loadouts') }}"><button> VIEW</button></a>
+      </div>
+    </nav>
+    <nav>
+      <h2>ACCOUNT</h2>
+      <div>
+        <button class="modal_button" id="register"> REGISTER</button>
+        <button class="modal_button" id="login"> LOGIN</button>
+      </div>
+    </nav>
+  <nav>
+      <h2>OTHER</h2>
+      <div>
+        <button class="modal_button" id="delete"> DELETE ACCOUNT</button>
+        <a href="https://codepen.io/birjolaxew/pen/kNXrwj" target="blank" rel="noopener noreferrer"><button> CSS CREDIT</button></a>
+      </div>
+    </nav>
+      </div>
+  <div class="img-holder">
+    <img src="http://media.steampowered.com/apps/440/icons/kit_nastyweapons_large.c04651c39b1d5119442a9d159d70d570f35f8f7d.png">
+  </div>
+    </div>
+
+    <dialog class="modal" id="login_modal">
+	    <article>
+		    <div class="close-holder">
+		    <button class="close">X</button>
+		    </div>
+	    <p>Login</p>
+	    <form method="post" action="/login">
+<label for="first">Username:</label>
+<input type="text" id="username" name="username" 
+    placeholder="Enter your Username" required>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" 
+    placeholder="Enter your Password" required>
+	    <button class="submit" type="submit">Submit</button>
+	    </form>
+	    </article>
+	    </dialog>
+
+    <dialog class="modal" id="generate_modal">
+	    <article>
+		    <div class="close-holder">
+		    <button class="close">X</button>
+		    </div>
+	    <p>Generate Loadout</p>
+<form id="loadout-form" method="post" action="/generate">
+  <label for="tf-class">Select a class:</label>
+  <select id="tf-class" name="class" required>
+    <option value="" disabled selected>Choose a class</option>
+    <option value="Scout">Scout</option>
+    <option value="Soldier">Soldier</option>
+    <option value="Pyro">Pyro</option>
+    <option value="Demoman">Demoman</option>
+    <option value="Heavy">Heavy</option>
+    <option value="Engineer">Engineer</option>
+    <option value="Medic">Medic</option>
+    <option value="Sniper">Sniper</option>
+    <option value="Spy">Spy</option>
+  </select>
+  <fieldset>
+    <legend>Game Goal:</legend>
+    <label><input type="radio" name="game_goal" value="Win"> Win</label>
+    <label><input type="radio" name="game_goal" value="Fun"> Fun</label>
+    <label><input type="radio" name="game_goal" value="Both"> Both</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Individual Goal:</legend>
+    <label><input type="radio" name="individual_goal" value="Team Player"> Team Player</label>
+    <label><input type="radio" name="individual_goal" value="Top Frag"> Top Frag</label>
+  </fieldset>
+
+  <button type="submit">Generate</button>
+</form>
+	    </article>
+	    </dialog>
+
+    <dialog class="modal" id="register_modal">
+	    <article>
+		    <div class="close-holder">
+		    <button class="close">X</button>
+		    </div>
+	    <p>Create an Account</p>
+	    <form method="POST" action="{{ url_for('register') }}">
+		<label for="username">Username:</label>
+		  <input type="text" id="username" name="username" required>
+
+		  <label for="email">Email:</label>
+		  <input type="email" id="email" name="email" required>
+
+		  <label for="password">Password:</label>
+		  <div class="password-requirements">
+		  <li>Password must have at least 8 characters.</li>
+		  <li>Password must contain at least one uppercase letter.</li>
+		  <li>Password must contain at least one lowercase letter.</li>
+		  <li>Password must contain at least one digit.</li>
+		  <li>Password must contain at least one special character.</li>
+		  </div>
+		  <input type="password" id="password" name="password" required>
+
+		  <label for="confirm_password">Confirm password:</label>
+		  <input type="password" id="confirm_password" name="confirm_password" required>
+
+		  <button type="submit">Submit</button>
+		</form>
+	    </article>
+	    </dialog>
+
+    <dialog class="modal" id="delete_modal">
+	    <article>
+		    <div class="close-holder">
+		    <button class="close">X</button>
+		    </div>
+	    <p>Delete Loadout</p>
+	    <form method="post" action="/delete_account">
+		    <p>Are you sure you want to delete your account?</p>
+		    <div class="areyousure">
+	    <button class="submit areyousure" type="submit">Delete</button>
+	    </div>
+	    </form>
+	    </article>
+	    </dialog>
+
+
+  </section>
+</main>
+<footer style="/*! display: flex; *//*! flex-direction: column; */margin-top: 1rem;bottom: 0;">
+    <div style="display: flex;justify-content: center;">
+
+      <p style="font-family: &quot;Monospace&quot;;">wepgen.tf 2026. All rights reserved.</p>
+
+    </div>
+  </footer>
+</body></html>
+<script>
+// Grab all modal_buttons
+modal_buttons = document.querySelectorAll(".modal_button");
+// Grab the ids of all modals
+login_modal = document.getElementById("login_modal");
+generate_modal = document.getElementById("generate_modal");
+register_modal = document.getElementById("register_modal");
+delete_modal = document.getElementById("delete_modal");
+msg_closer = document.getElementById("msg_closer");
+
+if (msg_closer) {
+	msg_closer.addEventListener('click', () => {
+		msg_holder = msg_closer.closest(".msg-holder");
+		msg_holder.style.display = "none";
+	});
+}
+
+modal_buttons.forEach(modal_button => {
+	modal_button.addEventListener('click', () => {
+		if (modal_button.id == "login") {
+			login_modal.showModal();
+		}
+		if (modal_button.id == "generate") {
+			generate_modal.showModal();
+		}
+		if (modal_button.id == "register") {
+			register_modal.showModal();
+		}
+		if (modal_button.id == "delete") {
+			delete_modal.showModal();
+		}
+	});
+});
+
+close_buttons = document.querySelectorAll(".close")
+
+close_buttons.forEach(close_button => {
+	close_button.addEventListener('click', () => {
+		modal = close_button.closest(".modal");
+		modal.close();
+	});
+});
+
+</script>

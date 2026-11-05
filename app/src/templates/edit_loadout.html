@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html><head><link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head><body style="background: #2b2724 !important;">
+<main id="main" style="display: flex; margin: 0.5rem; justify-content: center;/*! margin-top: auto; *//*! margin-bottom: auto; *//*! flex-direction: column; */">
+  <section style="display: flex; flex-direction: column; justify-content: center; width: 70%;">
+	  {% with messages = get_flashed_messages()%}
+	  {% if messages %}
+	  {% for message in messages %}
+	  <p>{{ message }}</p>
+	  {% endfor %}
+	  {% endif %}
+	  {% endwith %}
+	  <h2>EDIT LOADOUT</h2>
+	  <div style="margin-top: 0.5rem;" class="options">
+		  <a style="text-decoration: none;" href="{{ url_for('loadouts') }}"><button class="back">BACK</button></a>
+	  </div>
+	  {% for loadout in loadout_data %}
+	  <div class="loadout-holder">
+		  <div class="top-bar">
+			  <p id="loadout-class" class="{{ loadout.class}}">Loadout for: {{ loadout.class }}</p>
+		  </div>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+				  <img src="{{ loadout.primary.image }}">
+				  {% if loadout.primary.type == "Stock" %}
+			  <p style="color: white;" id="primary-name">{{ loadout.primary.name }}</p>
+			  {% else %}
+			  <p id="primary-name">{{ loadout.primary.name }}</p>
+			  {% endif %}
+			  </div>
+			  <div class="attributes-holder">
+			  <div class="edit-holder">
+			  <label>Select a primary:</label>
+			  <select id="primary-select" name="primary-select" required>
+			  </select>
+			  </div>
+			  <div class="upsides-holder">
+				  {% if loadout.primary.attributes.upsides %}
+				  <p>Upsides:</p>
+				  {% for upside in loadout.primary.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Upsides:</p>
+			  {% endif %}
+			  </div>
+			  <div class="downsides-holder">
+			  {% if loadout.primary.attributes.downsides %}
+				  <p>Downsides:</p>
+				  {% for downside in loadout.primary.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Downsides:</p>
+			  {% endif %}
+			  </div>
+			  </div>
+		  </article>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.secondary.image }}">
+				  {% if loadout.secondary.type == "Stock" %}
+			  <p style="color: white;" id="secondary-name">{{ loadout.secondary.name }}</p>
+			  {% else %}
+			  <p id="secondary-name">{{ loadout.secondary.name }}</p>
+			  {% endif %}
+			  </div>
+			  <div class="attributes-holder">
+			  <div class="edit-holder">
+			  <label >Select a secondary:</label>
+			  <select id="secondary-select" name="secondary-select" required>
+			  </select>
+			  </div>
+			  <div class="upsides-holder">
+				  {% if loadout.secondary.attributes.upsides %}
+				  <p>Upsides:</p>
+				  {% for upside in loadout.secondary.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Upsides:</p>
+			  {% endif %}
+			  </div>
+			  {% if loadout.secondary.attributes.downsides %}
+			  <div class="downsides-holder">
+				  <p>Downsides:</p>
+				  {% for downside in loadout.secondary.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Downsides:</p>
+			  {% endif %}
+			  </div>
+			  </div>
+		  </article>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.melee.image }}">
+				  {% if loadout.melee.type == "Stock" %}
+			  <p style="color: white;" id="melee-name">{{ loadout.melee.name }}</p>
+			  {% else %}
+			  <p id="melee-name">{{ loadout.melee.name }}</p>
+			  {% endif %}			  
+			  </div>
+			  <div class="attributes-holder">
+			  <div class="edit-holder">
+			  <label >Select a melee:</label>
+			  <select id="melee-select" name="melee-select" required>
+			  </select>
+			  </div>			  
+			  <div class="upsides-holder">
+				  {% if loadout.melee.attributes.upsides %}
+				  <p>Upsides:</p>
+				  {% for upside in loadout.melee.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Upsides:</p>
+			  {% endif %}
+			  </div>
+			  <div class="downsides-holder">
+			  {% if loadout.melee.attributes.downsides %}
+				  <p>Downsides:</p>
+				  {% for downside in loadout.melee.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Downsides:</p>
+			  {% endif %}
+			  </div>
+			  </div>
+			  </article>
+		  {% if loadout.pda %}
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.pda.image }}">
+				  {% if loadout.pda.type == "Stock" %}
+			  <p style="color: white;" id="pda-name">{{ loadout.pda.name }}</p>
+			  {% else %}
+			  <p id="pda-name">{{ loadout.pda.name }}</p>
+			  {% endif %}			  
+			  </div>
+			  <div class="attributes-holder">
+			  <div class="edit-holder">
+			  <label >Select a PDA:</label>
+			  <select id="pda-select" name="pda-select" required>
+			  </select>
+			  </div>			  
+			  <div class="upsides-holder">
+			  {% if loadout.pda.attributes.upsides %}
+				  <p>Upsides:</p>
+				  {% for upside in loadout.pda.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Upsides:</p>
+			  {% endif %}
+			  </div>
+			  <div class="downsides-holder">
+			  {% if loadout.pda.attributes.downsides %}
+				  <p>Downsides:</p>
+				  {% for downside in loadout.pda.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+				  {% else %}
+				  <p style="display:none;">Downsides:</p>
+			  {% endif %}
+			  </div>
+			  </div>
+		  </article>
+		  {% endif %}
+			  </div>
+		  </div>
+		  <div class="options" style="margin-top: 1rem;">
+			  <div class="edit">
+				  <form method="post" action="{{ url_for('edit_loadout', loadout_id=loadout_id) }}">
+				  <input id="primary-edit" type="hidden" name="primary_edit" value="">
+				  <input id="secondary-edit" type="hidden" name="secondary_edit" value="">
+				  <input id="melee-edit" type="hidden" name="melee_edit" value="">
+				  <input id="pda-edit" type="hidden" name="pda_edit" value="nada">
+				  <button style="width: 100% !important;" class="edit">EDIT</button>
+				  </form>
+			  </div>
+		  </article>
+		  </div>
+		  {% endfor %}
+
+  </section>
+</main>
+<footer style="/*! display: flex; *//*! flex-direction: column; */margin-top: 1rem;bottom: 0;">
+    <div style="display: flex;justify-content: center;">
+      <p style="font-family: &quot;Monospace&quot;;">wepgen.tf 2026. All rights reserved.</p>
+    </div>
+  </footer>
+</body></html>
+<script>
+possible_weapons = JSON.parse('{{ possible_weapons | tojson }}');
+tf_class = document.getElementById("loadout-class").className;
+primary_select = document.getElementById("primary-select");
+primary_name = document.getElementById("primary-name");
+primary_edit = document.getElementById("primary-edit");
+secondary_select = document.getElementById("secondary-select");
+secondary_name = document.getElementById("secondary-name");
+secondary_edit = document.getElementById("secondary-edit");
+melee_select = document.getElementById("melee-select");
+melee_name = document.getElementById("melee-name");
+melee_edit = document.getElementById("melee-edit");
+if (tf_class === "Spy" | tf_class === "Engineer") {
+	pda_select = document.getElementById("pda-select");
+	pda_name = document.getElementById("pda-name");
+	pda_edit = document.getElementById("pda-edit");
+}
+
+for (i = 0; i < Object.values(possible_weapons.primary).length; ++i) {
+    option = document.createElement("option");
+    weapon = Object.values(possible_weapons.primary)[i].name;
+    option.innerHTML = weapon;
+    option.value = weapon;
+	if (weapon === primary_name.textContent) {
+		option.selected = weapon;
+		primary_edit.value = weapon;
+	}
+    primary_select.appendChild(option);
+};
+
+for (i = 0; i < Object.values(possible_weapons.secondary).length; ++i) {
+    option = document.createElement("option");
+    weapon = Object.values(possible_weapons.secondary)[i].name;
+    option.innerHTML = weapon;
+    option.value = weapon;
+	if (weapon === secondary_name.textContent) {
+		option.selected = weapon;
+		secondary_edit.value = weapon;
+	}
+    secondary_select.appendChild(option);
+};
+
+for (i = 0; i < Object.values(possible_weapons.melee).length; ++i) {
+    option = document.createElement("option");
+    weapon = Object.values(possible_weapons.melee)[i].name;
+    option.innerHTML = weapon;
+    option.value = weapon;
+	if (weapon === melee_name.textContent) {
+		option.selected = weapon;
+		melee_edit.value = weapon;
+	}
+    melee_select.appendChild(option);
+};
+
+if (tf_class === "Spy" || tf_class === "Engineer") {
+	for (i = 0; i < Object.values(possible_weapons.pda).length; ++i) {
+	    option = document.createElement("option");
+	    weapon = Object.values(possible_weapons.pda)[i].name;
+	    option.innerHTML = weapon;
+	    option.value = weapon;
+		if (weapon === pda_name.textContent) {
+			option.selected = weapon;
+			pda_edit.value = weapon;
+		}
+	    pda_select.appendChild(option);
+	};
+}
+
+
+function find_weapon(weapon_name, weapon_slot) {
+	if (weapon_slot === "primary") {
+		weapon_type = Object.values(possible_weapons.primary);
+	}
+	if (weapon_slot === "secondary") {
+		weapon_type = Object.values(possible_weapons.secondary);
+	}
+	if (weapon_slot === "melee") {
+		weapon_type = Object.values(possible_weapons.melee);
+	}
+	if (weapon_slot === "pda") {
+		weapon_type = Object.values(possible_weapons.pda);
+	}
+
+		for (i = 0; i < weapon_type.length; ++i) {
+			if (weapon_type[i].name === weapon_name) {
+				return weapon_type[i];
+			}
+		}
+	}
+
+options = document.querySelectorAll("option").forEach(option => {
+	option.addEventListener("click", () => {
+		edit_holder = option.closest(".edit-holder");
+		if (edit_holder.children[1].id === "primary-select") {
+			new_weapon = find_weapon(option.value, "primary")
+			primary_edit.value = new_weapon.name;
+		};
+		if (edit_holder.children[1].id === "secondary-select") {
+			new_weapon = find_weapon(option.value, "secondary")
+			secondary_edit.value = new_weapon.name;
+		};
+		if (edit_holder.children[1].id === "melee-select") {
+			new_weapon = find_weapon(option.value, "melee")
+			melee_edit.value = new_weapon.name;
+		};
+		if (edit_holder.children[1].id === "pda-select") {
+			new_weapon = find_weapon(option.value, "pda")
+			pda_edit.value = new_weapon.name;
+		};
+			weapon_holder = edit_holder.closest(".weapon-holder");
+			img_name_holder = weapon_holder.children[0].children;
+			img_holder = img_name_holder[0];
+			name_holder = img_name_holder[1];
+			// Change image
+			img_holder.src = new_weapon.image;
+			// Change name
+			name_holder.innerText = new_weapon.name;
+			// Change name color to white if the new weapon is stock
+			if (new_weapon.type === "Stock") {
+				name_holder.style.color = "white";
+			}
+			// Else it's unlockable so yellow
+			else {
+				name_holder.style.color = "#f2d424";
+			};
+
+			attributes_holder = edit_holder.closest(".attributes-holder");
+			if (attributes_holder.children.length > 1) {
+				// Obtain old weapon's upsides and remove them
+				upsides_holder = attributes_holder.children[1];
+				upsides = Array.from(upsides_holder.children).splice(1);
+				for (i = 0; i < upsides.length; ++i) {
+					upsides[i].remove();
+				}
+				if (attributes_holder.children.length > 2) {
+					// Obtain old weapon's downsides and remove them
+					downsides_holder = attributes_holder.children[2];
+					downsides = Array.from(downsides_holder.children).splice(1);
+					for (i = 0; i < downsides.length; ++i) {
+						downsides[i].remove();
+					}
+				}
+			}
+			// Obtain the new weapon's attributes
+			weapon_attributes = new_weapon.attributes;
+			// Add the upsides
+			if (weapon_attributes.upsides.length == 0) {
+				upsides_holder.children[0].style.display = "none";
+			}
+			else {
+				upsides_holder.children[0].style.display = "flex";
+				for (i = 0; i < weapon_attributes.upsides.length; ++i) {
+					new_upside = document.createElement("li");
+					new_upside.innerText = weapon_attributes.upsides[i];
+					console.log(new_upside);
+					upsides_holder.appendChild(new_upside);
+				}
+			};
+			// Add the downsides
+			if (weapon_attributes.downsides.length == 0) {
+				downsides_holder.children[0].style.display = "none";
+			}
+			else {
+				downsides_holder.children[0].style.display = "flex"
+				for (i = 0; i < weapon_attributes.downsides.length; ++i) {
+					new_downside = document.createElement("li");
+					new_downside.innerText = weapon_attributes.downsides[i];
+					downsides_holder.appendChild(new_downside);
+				}
+			};
+	});
+});
+
+</script>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html><head><link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head><body style="background: #2b2724 !important;">
+<main id="main" style="display: flex; margin: 0.5rem; justify-content: center;/*! margin-top: auto; *//*! margin-bottom: auto; *//*! flex-direction: column; */">
+  <section style="display: flex; flex-direction: column; justify-content: center; width: 70%;">
+	  {% with messages = get_flashed_messages()%}
+	  {% if messages %}
+	  {% for message in messages %}
+	  <article class="msg-holder">
+	  <p>{{ message }}</p>
+	    <div class="close-holder">
+	    <button id="msg_closer">X</button>
+	    </div>
+	  </article>
+	  {% endfor %}
+	  {% endif %}
+	  {% endwith %}
+	  <h2>LOADOUTS</h2>
+	  <div style="margin-top: 0.5rem;" class="options">
+		  <a href="{{ url_for('main') }}"><button class="back">BACK</button></a>
+	  </div>
+	  {% for loadout in loadout_data %}
+	  <div class="loadout-holder">
+		  <div class="top-bar">
+		  <p>Loadout for: {{ loadout.class }}</p>
+		  <div class="options">
+			  <div class="edit">
+				  <a href="{{ url_for('edit_loadout', loadout_id=loadout.loadout_id) }}"><button class="edit">EDIT</button></a>
+			  </div>
+			  <div id="{{ loadout.loadout_id }}" class="delete_button" style="margin-left: 0.5rem;">
+		  <button class="modal_button" id="delete_loadout">X</button>
+		  </div>
+		  </div>
+		  </div>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+				  <img src="{{ loadout.primary.image }}">
+				  {% if loadout.primary.type == "Stock" %}
+			  <p style="color: white;" id="primary-name">{{ loadout.primary.name }}</p>
+			  {% else %}
+			  <p id="primary-name">{{ loadout.primary.name }}</p>
+			  {% endif %}
+			  </div>
+			  <div class="attributes-holder">
+				  {% if loadout.primary.attributes.upsides %}
+			  <div class="upsides-holder">
+				  <p>Upsides:</p>
+				  {% for upside in loadout.primary.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  {% if loadout.primary.attributes.downsides %}
+			  <div class="downsides-holder">
+				  <p>Downsides:</p>
+				  {% for downside in loadout.primary.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  </div>
+		  </article>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.secondary.image }}">
+				  {% if loadout.secondary.type == "Stock" %}
+			  <p style="color: white;" id="secondary-name">{{ loadout.secondary.name }}</p>
+			  {% else %}
+			  <p id="secondary-name">{{ loadout.secondary.name }}</p>
+			  {% endif %}			  
+			  </div>
+			  <div class="attributes-holder">
+				  {% if loadout.secondary.attributes.upsides %}
+			  <div class="upsides-holder">
+				  <p>Upsides:</p>
+				  {% for upside in loadout.secondary.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  {% if loadout.secondary.attributes.downsides %}
+			  <div class="downsides-holder">
+				  <p>Downsides:</p>
+				  {% for downside in loadout.secondary.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  </div>
+		  </article>
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.melee.image }}">
+				  {% if loadout.melee.type == "Stock" %}
+			  <p style="color: white;" id="melee-name">{{ loadout.melee.name }}</p>
+			  {% else %}
+			  <p id="melee-name">{{ loadout.melee.name }}</p>
+			  {% endif %}			  
+			  </div>
+			  <div class="attributes-holder">
+				  {% if loadout.melee.attributes.upsides %}
+			  <div class="upsides-holder">
+				  <p>Upsides:</p>
+				  {% for upside in loadout.melee.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  {% if loadout.melee.attributes.downsides %}
+			  <div class="downsides-holder">
+				  <p>Downsides:</p>
+				  {% for downside in loadout.melee.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  </div>
+		  </article>
+		  {% if loadout.pda %}
+		  <article class="weapon-holder">
+			  <div class="img-and-name-holder">
+			  <img src="{{ loadout.pda.image }}">
+				  {% if loadout.pda.type == "Stock" %}
+			  <p style="color: white;" id="melee-name">{{ loadout.pda.name }}</p>
+			  {% else %}
+			  <p id="melee-name">{{ loadout.pda.name }}</p>
+			  {% endif %}			  
+			  </div>
+			  <div class="attributes-holder">
+			  {% if loadout.pda.attributes.upsides %}
+			  <div class="upsides-holder">
+				  <p>Upsides:</p>
+				  {% for upside in loadout.pda.attributes.upsides %}
+				  <li>{{ upside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  {% if loadout.pda.attributes.downsides %}
+			  <div class="downsides-holder">
+				  <p>Downsides:</p>
+				  {% for downside in loadout.pda.attributes.downsides %}
+				  <li>{{ downside }}</li>
+				  {% endfor %}
+			  </div>
+			  {% endif %}
+			  </div>
+		  </article>
+		  {% endif %}
+		  </div>
+		  {% else %}
+		  <p style="margin-top: 1rem; font-family: monospace; font-size: 25px;">No loadouts found.</p>
+		  {% endfor %}
+
+    <dialog class="modal" id="delete_modal">
+	    <article>
+		    <div class="close-holder">
+		    <button class="close">X</button>
+		    </div>
+	    <p>Delete Loadout</p>
+	    <form method="post" action="/delete_loadout">
+		    <input id="loadout_id" type="hidden" name="loadout_id" value="">
+		    <p>Are you sure you want to delete this loadout?</p>
+		    <div class="areyousure">
+	    <button class="submit areyousure" type="submit">Delete</button>
+	    </div>
+	    </form>
+	    </article>
+	    </dialog>
+
+  </section>
+</main>
+<footer style="/*! display: flex; *//*! flex-direction: column; */margin-top: 1rem;bottom: 0;">
+    <div style="display: flex;justify-content: center;">
+      <p style="font-family: &quot;Monospace&quot;;">wepgen.tf 2026. All rights reserved.</p>
+    </div>
+  </footer>
+</body></html>
+<script>
+loadout_info = JSON.parse('{{ loadout_data | tojson }}');
+// Grab all modal_buttons
+modal_buttons = document.querySelectorAll(".modal_button");
+// Grab the delete modal
+delete_modal = document.getElementById("delete_modal")
+
+msg_closer = document.getElementById("msg_closer");
+
+if (msg_closer) {
+	msg_closer.addEventListener('click', () => {
+		msg_holder = msg_closer.closest(".msg-holder");
+		msg_holder.style.display = "none";
+	});
+}
+
+modal_buttons.forEach(modal_button => {
+	modal_button.addEventListener('click', () => {
+		if (modal_button.id == "delete_loadout") {
+			delete_modal.showModal();
+			// Get loadout ID
+			loadout_id = modal_button.closest(".delete_button").id;
+			// Set value of hidden input field to the loadout ID
+			hidden_form = document.getElementById("loadout_id");
+			hidden_form.value = loadout_id;
+		}
+	});
+});
+
+close_buttons = document.querySelectorAll(".close")
+
+close_buttons.forEach(close_button => {
+	close_button.addEventListener('click', () => {
+		modal = close_button.closest(".modal");
+		modal.close();
+	});
+});
+</script>

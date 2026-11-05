@@ -1,0 +1,13 @@
+services:
+  flask:
+    container_name: flask
+    build: ./app/
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/app
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6739:6739"
