@@ -224,6 +224,8 @@ def generate_loadout():
 
         melee = determine_best(odds_list)
 
+        odds_list.clear()
+
         if tf_class == "Engineer":
             # This is the only PDA for Engineer
             pda = "Construction PDA"
